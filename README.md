@@ -1,0 +1,2 @@
+# kopo_cd
+CDtest
