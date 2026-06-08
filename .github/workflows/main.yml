@@ -1,0 +1,22 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /tmp
+            rm -rf kopo_cd
+            git clone https://github.com/hj1016/kopo_cd.git
+            sudo cp /tmp/kopo_cd/index.html /var/www/html/index.html
+            sudo systemctl restart nginx
